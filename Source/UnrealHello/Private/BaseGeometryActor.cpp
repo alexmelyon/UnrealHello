@@ -20,7 +20,7 @@ void ABaseGeometryActor::BeginPlay()
 	Super::BeginPlay();
 
 	printTypes();
-	printStringTypes();
+	//printStringTypes();
 }
 
 // Called every frame
@@ -31,18 +31,19 @@ void ABaseGeometryActor::Tick(float DeltaTime)
 
 void ABaseGeometryActor::printTypes()
 {
-	UE_LOG(LogTemp, Warning, L"INT %d", 123);
-	UE_LOG(LogTemp, Warning, TEXT("FLOAT %f"), 123.0F);
-	UE_LOG(LogTemp, Warning, L"BOOL %d", true);
+	UE_LOG(LogBaseGeometry, Warning, L"Actor name: %s", *GetName());
+	UE_LOG(LogBaseGeometry, Warning, L"Weapons %d", weaponsNum);
+	UE_LOG(LogBaseGeometry, Warning, L"Health %f", health);
+	UE_LOG(LogBaseGeometry, Warning, L"Is dead %d", isDead);
+	UE_LOG(LogBaseGeometry, Warning, L"Has weapon %d", hasWeapon)
 }
 
 void ABaseGeometryActor::printStringTypes() {
 
 	FString weapons = "Weapons=" + FString::FromInt(5);
-	FString health = "Health=" + FString::SanitizeFloat(1.23F);
-	bool isDead = false;
+	FString healthStr = "Health=" + FString::SanitizeFloat(1.23F);
 	FString isDeadStr = "Is dead=" + FString(isDead ? "true" : "false");
-	FString stat = FString::Printf(TEXT("All %s %s %s"), *weapons, *health, *isDeadStr);
+	FString stat = FString::Printf(TEXT("All %s %s %s"), *weapons, *healthStr, *isDeadStr);
 	UE_LOG(LogBaseGeometry, Warning, L"%s", *stat);
 
 	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, FString("John Connor"));
