@@ -27,6 +27,9 @@ void ABaseGeometryActor::BeginPlay()
 	//printStringTypes();
 
 	setColor(geometryData.color);
+
+	bool repeat = true;
+	GetWorldTimerManager().SetTimer(timerHandle, this, &ABaseGeometryActor::onTimerFired, geometryData.timerRateSec, repeat);
 }
 
 // Called every frame
@@ -97,5 +100,18 @@ void ABaseGeometryActor::setColor(const FLinearColor& color)
 	UMaterialInstanceDynamic* dynMaterial = BaseMesh->CreateAndSetMaterialInstanceDynamic(0);
 	if (dynMaterial) {
 		dynMaterial->SetVectorParameterValue("Color", color);
+	}
+}
+
+void ABaseGeometryActor::onTimerFired()
+{
+	if (++timerCount <= maxTimerCount) {
+		const FLinearColor newColor = FLinearColor::MakeRandomColor();
+		UE_LOG(LogBaseGeometry, Warning, L"Timer count=%i, New color %s", timerCount, *newColor.ToString());
+		setColor(newColor);
+	}
+	else {
+		UE_LOG(LogBaseGeometry, Warning, L"Timer stopped");
+		GetWorldTimerManager().ClearTimer(timerHandle);
 	}
 }
