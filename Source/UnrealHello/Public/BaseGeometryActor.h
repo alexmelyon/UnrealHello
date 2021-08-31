@@ -42,7 +42,9 @@ public:
 	ABaseGeometryActor();
 
 	UPROPERTY(VisibleAnywhere)
-		UStaticMeshComponent* BaseMesh;
+	UStaticMeshComponent* BaseMesh;
+
+	void setGeometryData(const FGeometryData& data) { geometryData = data; }
 
 protected:
 	// Called when the game starts or when spawned
