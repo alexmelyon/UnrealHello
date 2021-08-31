@@ -25,6 +25,8 @@ struct FGeometryData {
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	EMovementType moveType = EMovementType::Static;
 
+	UPROPERTY(EditAnywhere, Category = "Design")
+	FLinearColor color = FLinearColor::Black;
 };
 
 UCLASS()
@@ -71,4 +73,5 @@ private:
 	void printStringTypes();
 	void printTransform();
 	void handleMovement();
+	void setColor(const FLinearColor& color);
 };

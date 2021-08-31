@@ -25,6 +25,8 @@ void ABaseGeometryActor::BeginPlay()
 
 	//printTypes();
 	//printStringTypes();
+
+	setColor(geometryData.color);
 }
 
 // Called every frame
@@ -87,5 +89,13 @@ void ABaseGeometryActor::handleMovement()
 		case EMovementType::Static: break;
 		default:
 			break;
+	}
+}
+
+void ABaseGeometryActor::setColor(const FLinearColor& color)
+{
+	UMaterialInstanceDynamic* dynMaterial = BaseMesh->CreateAndSetMaterialInstanceDynamic(0);
+	if (dynMaterial) {
+		dynMaterial->SetVectorParameterValue("Color", color);
 	}
 }
