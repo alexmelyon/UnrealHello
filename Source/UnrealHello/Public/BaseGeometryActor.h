@@ -7,6 +7,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "BaseGeometryActor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnColorChanged, const FLinearColor&, Color, const FString&, Name);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnTimerFinished, AActor*);
+
 UENUM(BlueprintType)
 enum class EMovementType : uint8 {
 	Sin, Static
@@ -16,16 +19,16 @@ USTRUCT(BlueprintType)
 struct FGeometryData {
 	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "Movement")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float amplitude = 50.0F;
 
-	UPROPERTY(EditAnywhere, Category = "Movement")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	float frequency = 2.0F;
 
-	UPROPERTY(EditAnywhere, Category = "Movement")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	EMovementType moveType = EMovementType::Static;
 
-	UPROPERTY(EditAnywhere, Category = "Design")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Design")
 	FLinearColor color = FLinearColor::Black;
 
 	UPROPERTY(EditAnywhere, Category = "Design")
@@ -46,11 +49,19 @@ public:
 
 	void setGeometryData(const FGeometryData& data) { geometryData = data; }
 
+	UFUNCTION(BlueprintCallable)
+	FGeometryData getGeometryData() const { return geometryData; }
+
+	UPROPERTY(BlueprintAssignable)
+	FOnColorChanged onColorChanged;
+	FOnTimerFinished onTimerFinished;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	UPROPERTY(EditAnywhere, Category = "Geometry data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Geometry data")
 	FGeometryData geometryData;
 
 	UPROPERTY(EditAnywhere, Category = "Weapon")
