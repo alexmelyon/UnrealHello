@@ -21,7 +21,8 @@ void AGeometryHubActor::BeginPlay()
 
 	//DoActorSpawn1();
 	//DoActorSpawn2();
-	DoActorSpawn3();
+	//DoActorSpawn3();
+	DoActorSpawn4();
 }
 
 void AGeometryHubActor::DoActorSpawn3() {
@@ -72,6 +73,17 @@ void AGeometryHubActor::DoActorSpawn1() {
 	}
 }
 
+void AGeometryHubActor::DoActorSpawn4()
+{
+	if (!GetWorld()) return;
+
+	FTransform geometryTransform = FTransform(FRotator::ZeroRotator, FVector(700.0F, 300.0F, 300.0F));
+	nonPropertyActor = GetWorld()->SpawnActor<ABaseGeometryActor>(geometryClass, geometryTransform);
+
+	geometryTransform = FTransform(FRotator::ZeroRotator, FVector(700.0F, 700.0F, 300.0F));
+	propertyActor = GetWorld()->SpawnActor<ABaseGeometryActor>(geometryClass, geometryTransform);
+}
+
 void AGeometryHubActor::onColorChanged(const FLinearColor& color, const FString& name)
 {
 	UE_LOG(LogGeometryHub, Warning, L"Actor %s color %s", *name, *color.ToString());
@@ -96,5 +108,7 @@ void AGeometryHubActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UE_LOG(LogGeometryHub, Warning, L"Property pointer=%i isValid=%i", propertyActor != nullptr, IsValid(propertyActor));
+	UE_LOG(LogGeometryHub, Warning, L"Nonproperty pointer=%i isValid=%i", nonPropertyActor != nullptr, IsValid(nonPropertyActor));
 }
 
