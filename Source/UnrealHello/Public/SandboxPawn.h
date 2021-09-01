@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "SandboxPawn.generated.h"
 
+class UCameraComponent;
+
 UCLASS()
 class UNREALHELLO_API ASandboxPawn : public APawn
 {
@@ -18,8 +20,17 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* sceneComponent;
 
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* staticMeshComponent;
+
+	UPROPERTY(VisibleAnywhere)
+		UCameraComponent* cameraComponent;
+
 	UPROPERTY(EditAnywhere)
 	float velocity = 300.0F;
+
+	virtual void PossessedBy(AController* controller) override;
+	virtual void UnPossessed() override;
 
 protected:
 	// Called when the game starts or when spawned
